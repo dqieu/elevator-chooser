@@ -1,0 +1,16 @@
+{
+  "name": "elevator-chooser",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Vietnamese elevator configuration chooser with browser-native DWG export",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "python3 -m http.server 8080 --bind 127.0.0.1 --directory dist",
+    "test": "node scripts/test.mjs",
+    "check": "python3 scripts/check-assets.py"
+  }
+}

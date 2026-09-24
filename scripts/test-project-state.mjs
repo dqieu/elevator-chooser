@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {sectionDefaults,siteErrors} from '../dist/project-state.mjs';
+assert.equal(sectionDefaults().floorHeight*4,30000);
+assert.equal(sectionDefaults({travel:24}).floorHeight*4,24000);
+assert.equal(sectionDefaults({travel:24},{stops:7,floorHeight:3300}).floorHeight,4000);
+assert.equal(sectionDefaults({travel:12},{stops:4,floorHeights:'3000;4000;5000'}).floorHeights,'3000;4000;5000');
+assert.equal(sectionDefaults({travel:24},{stops:4,floorHeights:'3000;4000;5000'}).floorHeights,'');
+const result={outputs:{AH:2000,BH:1800,OH:4200,PD:1500}};
+assert.equal(siteErrors(result,{width:2000,overhead:4200}).length,0);
+assert.equal(siteErrors(result,{width:2000,overhead:4200,margin:10}).length,2);
+assert.equal(siteErrors(result,{pit:1400}).length,1);
+console.log('Project travel defaults, stale floor preferences and site constraints passed.');

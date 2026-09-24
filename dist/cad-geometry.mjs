@@ -1,0 +1,40 @@
+import {lehyGGeometry} from './cad-assets/lehy-g.mjs?v=20260924-section2';
+import {evaluate,Workbook,models} from './chooser.mjs?v=20260924-section2';
+
+export const geometryLabels={railGauge:'Khoảng cách mặt ray cabin BG',railY:'Tim ngang ray cabin YR (từ vách trước)',counterY:'Tim đối trọng YW (từ vách trước)',rearDoorX:'Tim cửa sau X (từ vách trái)'};
+export function planGeometry(result,manual={}){
+ const r=evaluate(result.model,result.inputs,{en81:result.en81!==false});
+ if(r.errors.length)throw new Error('Cấu hình chưa hợp lệ. Hãy tính lại trước khi xuất CAD.');
+ const w=new Workbook(models.find(m=>m.id===r.model)).set(r.inputs),i=r.inputs,o=r.outputs;
+ const get=k=>{try{const v=w.get(k);return Number.isFinite(v)?v:null}catch{return null}};
+ const v=Object.fromEntries(['A_S','BS','B_3','BG','DKWC','KAKK','EE','CA','CD','WG','WW'].map(k=>[k,get(k)]));
+ for(const k of ['A_S','BS','B_3','DKWC','KAKK','CA','WG','WW'])if(v[k]===null)throw new Error('Thiếu tham số nguồn '+k);
+ const goods=r.model.endsWith('-G'),template=lehyGGeometry(r.model,i,v);
+ if(template)for(const k of ['BG','EE','CD'])v[k]=template[k];
+ const required=goods&&!template?['railGauge','railY','counterY']:[];
+ const through=i.ENTR==='1D/2D-2G';
+ const autoRear=!!(through&&Math.abs(o.DTL-o.HAXX)<.01&&(template||['LEHY-L-S','LEHY-L-Pro','LEHY-Pro'].includes(r.model)&&i.DRKI==='CO'));
+ if(through&&!autoRear)required.push('rearDoorX');
+ const missing=required.filter(k=>manual[k]==null||manual[k]==='');
+ const source=Object.fromEntries(Object.entries(v).map(([k,value])=>[k,{value,cell:w.model.names[k.toUpperCase()]??w.model.inputs[k]}]));
+ if(template)for(const k of ['BG','EE','CD'])source[k]={value:v[k],cell:template.file+' / TABLE 102',sha256:template.sha256};
+ if(missing.length)return {result:r,required,missing,source};
+ for(const k of required)if(!Number.isFinite(Number(manual[k]))||Number(manual[k])<=0)throw new Error(geometryLabels[k]+': nhập số dương (mm).');
+ const railGauge=goods&&!template?Number(manual.railGauge):v.BG,railY=goods&&!template?Number(manual.railY):v.B_3+v.EE;
+ const x=o.HAXX,front=v.B_3+v.DKWC+v.KAKK;
+ const car={x:x-i.AA/2,y:front,width:i.AA,depth:i.BB,cx:x,cy:front+i.BB/2};
+ const outer={x:x-v.A_S/2,y:v.B_3,width:v.A_S,depth:v.BS};
+ const counter={x:x+(i.POCW==='LB'?-v.CA:i.POCW==='RB'?v.CA:0),y:goods&&!template?Number(manual.counterY):railY+v.CD,gauge:v.WG,thickness:v.WW,back:i.POCW==='BACK'};
+ const rails=[{x:x-railGauge/2,y:railY},{x:x+railGauge/2,y:railY}];
+ const counterRails=counter.back?[{x:counter.x-v.WG/2,y:counter.y},{x:counter.x+v.WG/2,y:counter.y}]:[{x:counter.x,y:counter.y-v.WG/2},{x:counter.x,y:counter.y+v.WG/2}];
+ const doors=[{x:o.DTL,y:0,back:false}];if(through)doors.push({x:autoRear?o.HAXX:Number(manual.rearDoorX),y:o.BH,back:true});
+ const eps=.01,inside=(x,y)=>x>=-eps&&x<=o.AH+eps&&y>=-eps&&y<=o.BH+eps;
+ if(![x,front,railGauge,railY,counter.x,counter.y,...rails.flatMap(p=>[p.x,p.y])].every(Number.isFinite))throw new Error('Thiếu tọa độ để dựng mặt bằng.');
+ if(railGauge<=i.AA||railY<outer.y||railY>outer.y+outer.depth)throw new Error('Tim ray hoặc BG nằm ngoài miền cabin. Kiểm tra thông số kỹ thuật.');
+ if(!inside(outer.x,outer.y)||!inside(outer.x+outer.width,outer.y+outer.depth)||![...rails,...counterRails].every(p=>inside(p.x,p.y)))throw new Error('Cabin hoặc mốc ray vượt kích thước giếng. Cần kiểm tra lại tọa độ.');
+ const box={x:counter.x-(counter.back?v.WG:v.WW)/2,y:counter.y-(counter.back?v.WW:v.WG)/2,width:counter.back?v.WG:v.WW,depth:counter.back?v.WW:v.WG};
+ if(!inside(box.x,box.y)||!inside(box.x+box.width,box.y+box.depth))throw new Error('Bao đối trọng vượt giếng; kiểm tra tim đối trọng.');
+ if(box.x<outer.x+outer.width-eps&&box.x+box.width>outer.x+eps&&box.y<outer.y+outer.depth-eps&&box.y+box.depth>outer.y+eps)throw new Error('Bao đối trọng giao với cabin. Kiểm tra tọa độ.');
+ for(const d of doors)if(d.x-i.JJ/2<0||d.x+i.JJ/2>o.AH||d.x-i.JJ/2<car.x-eps||d.x+i.JJ/2>car.x+i.AA+eps)throw new Error('Cửa vượt giới hạn cabin hoặc giếng.');
+ return {result:r,source,template,autoRear,required,missing:[],manual:Object.fromEntries(required.map(k=>[k,Number(manual[k])])),car,outer,counter,counterBox:box,rails,counterRails,railGauge,railY,doors,front};
+}

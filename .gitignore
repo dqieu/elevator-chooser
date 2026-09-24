@@ -1,0 +1,10 @@
+analysis/
+node_modules/
+.DS_Store
+.openai/
+scripts/dwg-wasm/target/
+*.dwg
+*.dxf
+*.xls*
+.env*
+.venv/
