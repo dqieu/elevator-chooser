@@ -1,5 +1,5 @@
-import {lehyGGeometry} from './cad-assets/lehy-g.mjs?v=20260924-section2';
-import {evaluate,Workbook,models} from './chooser.mjs?v=20260924-section2';
+import {lehyGGeometry} from './cad-assets/lehy-g.mjs?v=20260924-specdefaults';
+import {evaluate,Workbook,models} from './chooser.mjs?v=20260924-specdefaults';
 
 export const geometryLabels={railGauge:'Khoảng cách mặt ray cabin BG',railY:'Tim ngang ray cabin YR (từ vách trước)',counterY:'Tim đối trọng YW (từ vách trước)',rearDoorX:'Tim cửa sau X (từ vách trái)'};
 export function planGeometry(result,manual={}){

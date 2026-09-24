@@ -1,6 +1,6 @@
-import {models} from './rules.mjs?v=20260924-section2';
-import {Workbook} from './excel.mjs?v=20260924-section2';
-import {areaAssessment,areaErrors} from './en81.mjs?v=20260924-section2';
+import {models} from './rules.mjs?v=20260924-specdefaults';
+import {Workbook} from './excel.mjs?v=20260924-specdefaults';
+import {areaAssessment,areaErrors} from './en81.mjs?v=20260924-specdefaults';
 export {models,Workbook};
 export const labels={CAP:'Tải trọng',SPD:'Tốc độ',AA:'Rộng cabin',BB:'Sâu cabin',HL:'Cao thông thủy cabin',CeilingTH:'Dày trần cabin',DRKI:'Kiểu mở cửa',DRDI:'Hướng lệch cửa',DRE:'Độ lệch cửa',ENTR:'Lối vào',DRTP:'Cửa chống cháy',JJ:'Rộng thông thủy cửa',HH:'Cao thông thủy cửa',POCW:'Vị trí đối trọng',GOVO:'Bộ hãm an toàn đối trọng',WG:'Khoảng cách ray đối trọng',WW:'Bề dày đối trọng',FSGD:'Cao lan can nóc cabin',WADD:'Khối lượng trang trí dự phòng',TR:'Hành trình',QADD:'Nâng thêm máy kéo',SIZE:'Cabin cáng 2100 × 1100',YOTO:'Ứng dụng chở hàng',STD:'Tiêu chuẩn tính toán',AH:'Rộng giếng',BH:'Sâu giếng',OH:'Chiều cao tầng trên cùng',PD:'Độ sâu hố pit',HM:'Cao phòng máy',HC:'Cao ngoài cabin',HAXX:'Tâm cabin đến vách trái',DTL:'Tâm cửa đến vách trái',S_Q1XX:'Q theo chiều cao cabin',Q:'Q tổng'};
 export const valueLabels={NO:'Không',YES:'Có',CO:'Mở tim · CO','2CO':'Mở tim 4 cánh · 2CO','2SL':'SO · Mở lùa trái (2SL)','2SR':'SO · Mở lùa phải (2SR)',LB:'Bên trái',RB:'Bên phải',BACK:'Phía sau','1D1G':'Một phía','1D/2D-2G':'Xuyên cabin',Default:'Mặc định',L:'Trái',R:'Phải','标准版':'Chở hàng tiêu chuẩn','叉车版':'Chở xe nâng','汽车版':'Chở ô tô','<=30':'Không quá 30 m','>30':'Trên 30 m'};

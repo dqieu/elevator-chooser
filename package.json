@@ -1,6 +1,6 @@
 {
   "name": "elevator-chooser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "description": "Vietnamese elevator configuration chooser with browser-native DWG export",

@@ -1,9 +1,9 @@
-import {projectDimensions} from './cad-project.mjs?v=20260924-section2';
-import {cadReference} from './cad-reference.mjs?v=20260924-section2';
-import {cadCanvas} from './cad-primitives.mjs?v=20260924-section2';
-import {templateParts} from './cad-assets/template-parts.mjs?v=20260924-section2';
-import {display} from './chooser.mjs?v=20260924-section2';
-import {planGeometry} from './cad-geometry.mjs?v=20260924-section2';
+import {projectDimensions} from './cad-project.mjs?v=20260924-specdefaults';
+import {cadReference} from './cad-reference.mjs?v=20260924-specdefaults';
+import {cadCanvas} from './cad-primitives.mjs?v=20260924-specdefaults';
+import {templateParts} from './cad-assets/template-parts.mjs?v=20260924-specdefaults';
+import {display} from './chooser.mjs?v=20260924-specdefaults';
+import {planGeometry} from './cad-geometry.mjs?v=20260924-specdefaults';
 
 const ascii=s=>String(s).replaceAll('×','x').replaceAll('±','+/-').replaceAll('·','|').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/Đ/g,'D').replace(/[^\x20-\x7e]/g,' ').replace(/\s+/g,' ').trim();
 const xml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

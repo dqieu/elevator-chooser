@@ -1,4 +1,4 @@
-import {templateParts} from './cad-assets/template-parts.mjs?v=20260924-section2';
+import {templateParts} from './cad-assets/template-parts.mjs?v=20260924-specdefaults';
 
 // Common graphics and native dimension definitions for plan and section sheets.
 export function cadCanvas(h){

@@ -1,4 +1,4 @@
-import {userTemplate as template} from './cad-assets/user-template.mjs?v=20260924-section2';
+import {userTemplate as template} from './cad-assets/user-template.mjs?v=20260924-specdefaults';
 
 // Piecewise presentation anchors preserve cabin/shaft boundaries. These vectors
 // reproduce the supplied reference; they do not select a machine or size a beam.

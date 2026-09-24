@@ -30,7 +30,7 @@ for(const model of models){
  assert.ok(d.sheets.section.entities.filter(e=>e.referenceGraphic&&e.component!=='landingDoor').length>=originalSegments);
  assert.ok(d.sheets.section.entities.some(e=>e.type==='text'&&e.value==='XÁC NHẬN CỦA CHỦ ĐẦU TƯ'));
  for(const field of ['T.GIÁM ĐỐC','THIẾT KẾ','KIỂM','DUYỆT'])assert.ok(d.sheets.section.entities.some(e=>e.type==='text'&&e.value===field));
- assert.ok(!d.sheets.specification.entities.some(e=>e.type==='text'&&/MẪU THAM KHẢO|AC 3 phase - 380V/.test(e.value)));
+ assert.ok(!d.sheets.specification.entities.some(e=>e.type==='text'&&/MẪU THAM KHẢO/.test(e.value)));
  assert.equal(d.sheets.specification.rows.find(([k])=>k==='Nguồn động lực')[1],'Theo hồ sơ điện');
  if(!mrl){
   const defaults=drawingPackageFor(r,{...options,roomOpenings:''}),room=defaults.sheets.machineRoom.roomDetails;
@@ -45,7 +45,7 @@ for(const model of models){
  assert.equal(Object.keys(d.sheets).length,mrl?3:4);
  assert.equal(!!d.sheets.machineRoom,!mrl);
  assert.ok(d.sheets.specification.rows.some(([k,v])=>k.startsWith('pit')&&v===`${options.PD} / ${baseline.result.outputs.PD} mm`));
- assert.ok(d.sheets.specification.rows.some(([k,v])=>k==='CB nguồn động lực (A)'&&v==='Chưa xác định'));
+ assert.ok(d.sheets.specification.rows.some(([k,v])=>k==='CB nguồn động lực (A)'&&v==='50'));
  assert.ok(d.sheets.section.dimensions.some(v=>v.label===`OH.${options.OH}`&&Math.abs(Math.hypot(v.a[0]-v.b[0],v.a[1]-v.b[1])-options.OH)<.001));
  assert.ok(d.sheets.section.dimensions.some(v=>v.label===`pit.${options.PD}`));
  for(const [label,value] of [[`OH.${options.OH}`,options.OH],[`pit.${options.PD}`,options.PD],[`hh.${r.inputs.HH}`,r.inputs.HH],[`bb.${r.inputs.BB}`,r.inputs.BB],[`tr-${g.travel}`,g.travel],...mrl?[]:[[`hm.${g.room}`,g.room]]]){
@@ -56,6 +56,12 @@ for(const model of models){
  assert.throws(()=>drawingFor(r,{...options,PD:1}),/PIT phải từ/);
  for(const value of [0,-1,'abc',Infinity])assert.throws(()=>drawingPackageFor(r,{...options,OH:value}));
  if(!mrl){assert.throws(()=>drawingPackageFor(r,{...options,roomOpenings:'a,0,0,999999,2'}),/phải nằm/);assert.throws(()=>drawingPackageFor(r,{...options,roomOpenings:'a,0,0,100,100;b,50,50,100,100'}),/chồng nhau/);if(!r.outputs.HM){assert.equal(drawingPackageFor(r,{...options,machineRoomHeight:''}).sheets.section.geometry.room,2200);assert.throws(()=>drawingPackageFor(r,{...options,machineRoomHeight:0}),/Nhập chiều cao/);}}
+ const spec=(opts)=>Object.fromEntries(drawingPackageFor(r,opts).sheets.specification.rows);
+ const fallback=spec({...options,powerSupply:'  ',powerBreaker:''});
+ assert.equal(fallback['Nguồn động lực'],'AC 3 phase - 380V - 50Hz');
+ assert.equal(fallback['Tên tầng phục vụ'],'1, 2, 3, 4');
+ assert.equal(spec({...options,powerBreaker:'63'})['CB nguồn động lực (A)'],'63');
+ assert.equal(spec({...options,powerBreaker:0})['CB nguồn động lực (A)'],'0');
  const name=model.id.replaceAll(' ','_');
  const dxf=toDxf(d);assert.ok(!/NaN|Infinity|undefined/.test(dxf));assert.ok(dxf.includes('69d6b494'));
  for(const symbol of ['OH.','pit.','hh.','bb.','tr-',...mrl?[]:['hm.']])assert.ok(dxf.replaceAll('\r','').includes('\n1\n'+symbol+'<>\n'), 'Native dimension must preserve '+symbol);

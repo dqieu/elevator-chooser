@@ -1,4 +1,4 @@
-import {drawingHashes,lsPlanSamples} from './cad-assets/references.mjs?v=20260924-section2';
+import {drawingHashes,lsPlanSamples} from './cad-assets/references.mjs?v=20260924-specdefaults';
 
 const numbered=(prefix,n)=>`${prefix}-${String(n).padStart(2,'0')}-1.dwg`;
 export function cadReference(r,kind='plan',geometry=null){

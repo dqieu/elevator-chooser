@@ -1,4 +1,4 @@
-import {userTemplate} from './cad-assets/user-template.mjs?v=20260924-section2';
+import {userTemplate} from './cad-assets/user-template.mjs?v=20260924-specdefaults';
 const value=(options,key,fallback,label)=>{const raw=options[key],n=raw==null||String(raw).trim()===''?fallback:Number(raw);if(!Number.isFinite(n)||n<=0)throw new Error(`${label}: nhập số dương.`);return n};
 export function roomDetails(g,options={}){
  const s=userTemplate.openings,{AH,BH}=g.result.outputs;

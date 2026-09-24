@@ -23,7 +23,7 @@ Mở [localhost:8080](http://localhost:8080). Hoặc dùng `npm start`. Không m
 3. Điều chỉnh thông số, số điểm dừng, chiều cao tầng, OH/PIT và thông tin công trình.
 4. Bấm **Dựng bản vẽ**, xem từng tờ, rồi **Tải CAD (.dwg)**.
 
-Dữ liệu cấu hình được xử lý trong trình duyệt. Bộ xuất DWG chạy bằng WebAssembly; không cần máy chủ chuyển đổi. Bảng thông số chỉ có giá trị công trình; dữ liệu chưa nhập hiển thị `Chưa xác định`.
+Dữ liệu cấu hình được xử lý trong trình duyệt. Bộ xuất DWG chạy bằng WebAssembly; không cần máy chủ chuyển đổi. Bảng thông số dùng giá trị mẫu cho các mục chưa nhập; giá trị đã nhập và thông số tính từ cấu hình được ưu tiên. Số cửa và tên tầng mặc định đi theo số điểm dừng.
 
 ## Kiểm tra
 
@@ -63,6 +63,6 @@ Các script trích xuất Excel/DWG dành cho người có bản nguồn riêng.
 
 Hỗ trợ sáu nhóm workbook: LEHY-G, LEHY-L-G, LEHY-L-Pro, LEHY-L-S, LEHY-Pro, LEHY-S/LEHY-III-S. Công thức giữ quy tắc workbook; bộ lọc diện tích EN 81-20 có tùy chọn bật/tắt. Thời hạn dữ liệu nguồn là 31/12/2026 và ứng dụng có cảnh báo hết hạn.
 
-Bản vẽ theo kích thước công trình, đơn vị mm, có native DIMENSION. Chi tiết máy/cáp được thích ứng từ mẫu; chúng không xác nhận thiết bị hoặc kết cấu phù hợp mọi model. Mỗi bộ thể hiện một cấu hình; mẫu nguồn có thể trình bày nhiều thang. Kích thước cabin/giếng thay đổi theo đầu vào nên hình không phải bản sao nguyên trạng của một công trình mẫu. Dữ liệu điện chưa biết không tự lấy định mức mẫu. LEHY-L-G chưa có mẫu thiết bị đúng dòng được xác minh.
+Bản vẽ theo kích thước công trình, đơn vị mm, có native DIMENSION. Chi tiết máy/cáp được thích ứng từ mẫu; chúng không xác nhận thiết bị hoặc kết cấu phù hợp mọi model. Mỗi bộ thể hiện một cấu hình; mẫu nguồn có thể trình bày nhiều thang. Kích thước cabin/giếng thay đổi theo đầu vào nên hình không phải bản sao nguyên trạng của một công trình mẫu. Dữ liệu điện chưa nhập lấy định mức mẫu theo yêu cầu; chỉnh từng mục khi công trình dùng giá trị khác. LEHY-L-G chưa có mẫu thiết bị đúng dòng được xác minh.
 
 Nguồn bên thứ ba và giấy phép bộ xuất DWG: [THIRD-PARTY-NOTICES](dist/cad-assets/dwg/THIRD-PARTY-NOTICES.txt). Repo công khai để xem mã; chưa cấp giấy phép chung cho toàn bộ ứng dụng và dữ liệu nguồn.

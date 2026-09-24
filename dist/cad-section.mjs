@@ -1,10 +1,10 @@
-import {userTemplate} from './cad-assets/user-template.mjs?v=20260924-section2';
-import {roomDetails} from './cad-room.mjs?v=20260924-section2';
-import {sectionMechanics} from './cad-mechanics.mjs?v=20260924-section2';
-import {projectDimensions} from './cad-project.mjs?v=20260924-section2';
-import {cadReference} from './cad-reference.mjs?v=20260924-section2';
-import {evaluate,models,Workbook,display} from './chooser.mjs?v=20260924-section2';
-import {cadCanvas} from './cad-primitives.mjs?v=20260924-section2';
+import {userTemplate} from './cad-assets/user-template.mjs?v=20260924-specdefaults';
+import {roomDetails} from './cad-room.mjs?v=20260924-specdefaults';
+import {sectionMechanics} from './cad-mechanics.mjs?v=20260924-specdefaults';
+import {projectDimensions} from './cad-project.mjs?v=20260924-specdefaults';
+import {cadReference} from './cad-reference.mjs?v=20260924-specdefaults';
+import {evaluate,models,Workbook,display} from './chooser.mjs?v=20260924-specdefaults';
+import {cadCanvas} from './cad-primitives.mjs?v=20260924-specdefaults';
 
 const number=n=>String(Math.round(n*1000)/1000);
 const level=z=>(z>=0?'+':'')+(z/1000).toFixed(3);

@@ -1,7 +1,7 @@
 // A fresh worker bounds each export's lifetime and releases WASM memory afterwards.
 export function toDwg(dxf) {
  return new Promise((resolve,reject) => {
-  const worker = new Worker(new URL('./dwg-worker.mjs?v=20260924-section2',import.meta.url),{type:'module'});
+  const worker = new Worker(new URL('./dwg-worker.mjs?v=20260924-specdefaults',import.meta.url),{type:'module'});
   const finish = (error,bytes) => {clearTimeout(timer);worker.terminate();error?reject(error):resolve(bytes)};
   const timer = setTimeout(()=>finish(new Error('Tạo DWG quá lâu. Vui lòng thử lại.')),60000);
   worker.onerror = ()=>finish(new Error('Không tải được bộ xuất DWG. Vui lòng tải lại trang và thử lại.'));
